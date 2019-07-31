@@ -6,4 +6,13 @@ class UsersController < ApplicationController
     render json: user, include: [:pets]
   end
 
+  def login
+    user = User.find_by(email: params[:email])
+    if user
+      render json: user
+    else
+      render json: {error: "CANNOT LOG IN"}, status: 401
+    end
+  end
+
 end
