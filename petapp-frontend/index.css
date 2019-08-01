@@ -8,7 +8,47 @@
 }
 
 body {
-  background-color: cadetblue
+  margin: 0;
+  background-color: cadetblue;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
   Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+}
+
+.post {
+    width: 400px;
+    background-color: white;
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+header {
+  background: #b27b59;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

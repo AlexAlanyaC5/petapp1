@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function(e){
 
 // Add a form onto the mainContainer (this is for the sign-up page) where users will
 // have to put their info in order to access this app.
-  mainContainer.innerHTML =`<form id="signup-form">
+  mainContainer.innerHTML +=`<form id="signup-form">
   <ul>
     <h2>Sign-up with HOP today!</h2>
     <p>Owner info:</p>
@@ -76,7 +76,8 @@ document.addEventListener("DOMContentLoaded", function(e){
   })
 
   function loginAndDisplayPosts(user){
-
+    document.getElementById("signup-form").style.display="none"
+    document.getElementById("login").style.display="none"
     localStorage.setItem("user_id", user.id)
     fetch('http://localhost:3000/posts')
     .then(res => res.json()) //sends a JSON response of that specific (data)
@@ -86,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function(e){
       postContainer.id="postContainer"
       data.forEach(function(data){ // and repeat that forEach function.
 
-      postContainer.innerHTML += `<p>${data.content}</p>` // displays all the posts made by other
+      postContainer.innerHTML += `<p class="post">${data.content}<button>Reply</button></p>` // displays all the posts made by other
       // users onto the page once the user signs up. (Sort of like Newsfeed style)
       // <p> tag is what we used for the posts.
       })
@@ -113,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         .then(res => {
           //console.log(res) //
 // First define a variable, then make a fetch request(method, body, headers)
-        postContainer.innerHTML += `<p>${res.content}</p>`
+        postContainer.innerHTML += `<p class="post">${res.content}<button>Reply</button></p>`
           //Put a debugger, find me content and user-id
           })
         })
