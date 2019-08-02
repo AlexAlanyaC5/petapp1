@@ -1,5 +1,16 @@
+main, #post-container {
+  text-align: center;
+}
+main li {
+  list-style: none;
+}
+
+.post {
+  margin: auto;
+}
+
 #inputrow {
-  background-color: aquamarine
+  background-color: #1e5c5b;
 }
 
 #welcomeprompt {

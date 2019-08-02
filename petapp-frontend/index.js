@@ -31,6 +31,18 @@ document.addEventListener("DOMContentLoaded", function(e){
   </ul>
     </form>`
 
+ mainContainer.innerHTML += `
+ <div>
+   <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d172137.6918246648!2d-122.48214941880858!3d47.61346702150842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1spet+friendly+breweries!5e0!3m2!1sen!2sus!4v1564754202001!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+ </div>
+ <head>
+    <title> Submit Post</title>
+ </head>
+  <p><input type="text" id="phraseText"></p>
+   <p><button id="sayPhrase">Submit Post</button></p>
+  <script src="./index.js"></script>`
+
+
 
 
 // Objective: Building out the Login Form
@@ -56,41 +68,44 @@ document.addEventListener("DOMContentLoaded", function(e){
     })
 
 
-// This place on the page then we are telling it to addEventListener.
-// For eventlistener we need to know the type of event and what should happen.
-//Event(e) prevents the default behavior
-  document.getElementById("signup-form").addEventListener("submit", function(e){
-    e.preventDefault()
-    const data = {name: e.target[0].value, email: e.target[1].value, phone: e.target[2].value,
-  age: e.target[3].value, gender: e.target[4].value, petName: e.target[5].value,
-  breed: e.target[6].value, petAge: e.target[7].value, petGender: e.target[8].value}
-// Setting a variable called "data" to an array of values for all the user's input.
-    fetch('http://localhost:3000/users', { // Make a fetch request to the url users
-      method:'POST', //A method could take: GET, POST, PATCH or DELETE
-      body: JSON.stringify(data),
-      headers: {'Content-Type': 'application/json',
-      }
+    // This place on the page then we are telling it to addEventListener.
+    // For eventlistener we need to know the type of event and what should happen.
+    //Event(e) prevents the default behavior
+      document.getElementById("signup-form").addEventListener("submit", function(e){
+        e.preventDefault()
+        const data = {name: e.target[0].value, email: e.target[1].value, phone: e.target[2].value,
+          age: e.target[3].value, gender: e.target[4].value, petName: e.target[5].value,
+          breed: e.target[6].value, petAge: e.target[7].value, petGender: e.target[8].value}
+    // Setting a variable called "data" to an array of values for all the user's input.
+        fetch('http://localhost:3000/users', { // Make a fetch request to the url users
+          method:'POST', //A method could take: GET, POST, PATCH or DELETE
+          body: JSON.stringify(data),
+          headers: {'Content-Type': 'application/json',
+        }
+      })
+      .then(res => res.json()) //sends a JSON response of that specific (data)
+      .then(res => loginAndDisplayPosts(res))
     })
-    .then(res => res.json()) //sends a JSON response of that specific (data)
-    .then(res => loginAndDisplayPosts(res))
-  })
 
-  function loginAndDisplayPosts(user){
-    document.getElementById("signup-form").style.display="none"
-    document.getElementById("login").style.display="none"
-    localStorage.setItem("user_id", user.id)
-    fetch('http://localhost:3000/posts')
-    .then(res => res.json()) //sends a JSON response of that specific (data)
-    .then(data => { //once first function succeeds, create a new variable called
+    function loginAndDisplayPosts(user){
+      document.getElementById("signup-form").style.display="none"
+      document.getElementById("login").style.display="none"
+        localStorage.setItem("user_id", user.id)
+      fetch('http://localhost:3000/posts')
+        .then(res => res.json()) //sends a JSON response of that specific (data)
+        .then(data => { //once first function succeeds, create a new variable called
       // postContainer and create an element "div". Set that postContainer's ID to be "postContainer"
       const postContainer = document.createElement("div")
       postContainer.id="postContainer"
-      data.forEach(function(data){ // and repeat that forEach function.
-
-      postContainer.innerHTML += `<p class="post">${data.content}<button>Reply</button></p>` // displays all the posts made by other
-      // users onto the page once the user signs up. (Sort of like Newsfeed style)
-      // <p> tag is what we used for the posts.
+      data.forEach(function(post){ // and repeat that forEach function.
+        // console.log(data)
+        postContainer.innerHTML += `<p class="post" data-id="${post.id}">${post.content}<button>Reply</button></p>` // displays all the posts made by other
+        // users onto the page once the user signs up. (Sort of like Newsfeed style)
+        // <p> tag is what we used for the posts.
       })
+    //postContainer.addEventListener("click", function(e){
+     //console.dir(e.target)
+    //  })
       mainContainer.append(postContainer)
 
       const input = document.getElementById("phraseText")    // take the value of input element;
@@ -114,7 +129,10 @@ document.addEventListener("DOMContentLoaded", function(e){
         .then(res => {
           //console.log(res) //
 // First define a variable, then make a fetch request(method, body, headers)
-        postContainer.innerHTML += `<p class="post">${res.content}<button>Reply</button></p>`
+
+          postContainer.innerHTML += `<p class="post">${res.content}<button>Reply</button></p>`
+
+
           //Put a debugger, find me content and user-id
           })
         })

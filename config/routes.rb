@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+  resources :posts do
+    resources :comments
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-post '/users', to:'users#create'
-get '/posts', to: 'posts#index'
-post '/posts', to: 'posts#create'
+  post '/users', to:'users#create'
+  get '/posts', to: 'posts#index'
+  post '/posts', to: 'posts#create'
 
-post '/login', to: 'users#login'
+  post '/login', to: 'users#login'
 
 end
